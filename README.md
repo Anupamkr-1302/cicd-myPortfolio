@@ -10,10 +10,15 @@
 ## 📁 Project Structure
 
 ├── index.html
+
 ├── style.css
+
 ├── resume.pdf
+
 ├── Dockerfile
+
 ├── Jenkinsfile
+
 └── README.md
 
 
