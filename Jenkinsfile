@@ -1,31 +1,31 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Build') {
-      steps {
-        echo '🔨 Building Docker image...'
-        sh 'docker build -t anupam-portfolio .'
-      }
-    }
+    stages {
+        stage('Build') {
+            steps {
+                echo '🔨 Building Docker image...'
+                sh 'docker build -t my-portfolio .'
+            }
+        }
 
-    stage('Test') {
-      steps {
-        echo '🔍 Testing container...'
-        sh 'docker run -d -p 8082:80 --name test-container anupam-portfolio'
-        sh 'sleep 5'
-        sh 'curl -I http://localhost:8082'
-        sh 'docker stop test-container && docker rm test-container'
-      }
-    }
+        stage('Test') {
+            steps {
+                echo '🔍 Testing container...'
+                // Use host network to allow Jenkins to reach the app
+                sh 'docker run -d --network host --name test-container my-portfolio'
+                sh 'sleep 5'
+                sh 'curl -I http://localhost:80'
+                sh 'docker stop test-container || true'
+                sh 'docker rm test-container || true'
+            }
+        }
 
-    stage('Deploy') {
-      steps {
-        echo '🚀 Deploying...'
-        sh 'docker stop live-portfolio || true'
-        sh 'docker rm live-portfolio || true'
-        sh 'docker run -d -p 8080:80 --name live-portfolio anupam-portfolio'
-      }
+        stage('Deploy') {
+            steps {
+                echo '🚀 Deploy stage (placeholder)...'
+                // You can add deployment commands here later
+            }
+        }
     }
-  }
 }
